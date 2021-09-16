@@ -3,3 +3,5 @@ mud.sublime-workspace
 mud.sublime-project
 .gitignore
 **/__pycache__/
+__pycache__/
+*.pyc
