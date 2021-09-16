@@ -1,6 +1,8 @@
 import asyncio
 import logging
 from libprotocol.protocol import MUDProtocol
+from gamelib.game import Game
+
 
 class MUDServer(object):
 	def __init__(self):
@@ -8,13 +10,15 @@ class MUDServer(object):
 		self.logger.setLevel(logging.DEBUG)
 		self.clients = []
 		self.logger.debug("Created object {}".format(self))
-		
+		self.game = Game(self)
+
 	async def start_server(self):
 		self.logger.info("Starting Server...")
 		loop = asyncio.get_running_loop()
 		server = await loop.create_server(lambda: MUDProtocol(self, loop), "0.0.0.0", "7777")
 		async with server:
-			await server.serve_forever()
+			await asyncio.gather(server.serve_forever(), self.game.onTick())
+			print("")
 
 	def broadcast(self, message, exclude=[]):
 		for client in self.clients:
@@ -27,6 +31,7 @@ class MUDServer(object):
 
 	def __repr__(self):
 		return self.__str__()
+
 
 async def main():
 	server = MUDServer()

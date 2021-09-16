@@ -3,6 +3,7 @@ import logging
 from utils.buffer import TelnetBuffer
 from libprotocol.client import Client
 
+
 class MUDProtocol(asyncio.Protocol):
 	def __init__(self, server, loop):
 		super().__init__()
@@ -10,15 +11,15 @@ class MUDProtocol(asyncio.Protocol):
 		self.server = server
 		self.loop = loop
 		self.transport = None
-		self.buffer = TelnetBuffer()
 		self.belongsTo = None
+		self.buffer = TelnetBuffer()
 		self.logger.debug("Created object {}".format(self))
 
 	def connection_made(self, transport):
 		self.transport = transport
 		self.logger.info("Connection recieved from {}".format(self.transport.get_extra_info("peername")))
 		self.belongsTo = Client(self.server, self)
-		if self.belongsTo.id == None:
+		if self.belongsTo.id is None:
 			self.logger.warning("Disconnecting client with no ID")
 			self.transport.close()
 			return
@@ -35,7 +36,7 @@ class MUDProtocol(asyncio.Protocol):
 
 	def connection_lost(self, exception):
 		self.logger.info("Connection lost from {}, err: {}".format(self.transport.get_extra_info("peername"), exception))
-		if self.belongsTo.id == None:
+		if self.belongsTo.id is None:
 			self.logger.warning("Tried looping a client without ID")
 		else:
 			self.server.clients.remove(self.belongsTo)
@@ -46,12 +47,12 @@ class MUDProtocol(asyncio.Protocol):
 		self.transport.write(message.encode("latin1"))
 
 	def __str__(self):
-		if self.transport == None:
+		if self.transport is None:
 			toFormat1 = "None"
 		else:
 			toFormat1 = self.transport.get_extra_info("peername")[0]
 
-		if type(self.belongsTo) is type(None):
+		if isinstance(self.belongsTo) is isinstance(None):
 			toFormat2 = "None"
 		else:
 			toFormat2 = self.belongsTo

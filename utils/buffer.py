@@ -1,5 +1,6 @@
 import logging
 
+
 class TelnetBuffer(object):
 	def __init__(self):
 		self.logger = logging.getLogger("__main__." + __name__)

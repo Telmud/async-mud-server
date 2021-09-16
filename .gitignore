@@ -1,1 +1,5 @@
 server.sublime-workspace
+mud.sublime-workspace
+mud.sublime-project
+.gitignore
+**/__pycache__/
