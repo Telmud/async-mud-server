@@ -1,6 +1,6 @@
-import asyncio
-import random
+# import random
 import logging
+import uuid
 
 
 class Client(object):
@@ -8,11 +8,13 @@ class Client(object):
 		self.logger = logging.getLogger("__main__." + __name__)
 		self.server = server
 		self.protocol = protocol
-		try:
-			self.id = random.choice([i for i in range(0, 10000) if i not in [x.id for x in self.server.clients]])
-		except IndexError:
-			self.id = None
-			self.logger.error("Couldn't assign id to a client (Probably hit the slot limit), assigning None")	
+		# the old way of making assigning unique identifiers to clients, then I remembered that UUID exists
+		# try:
+		# 	self.id = random.choice([i for i in range(0, 10000) if i not in [x.id for x in self.server.clients]])
+		# except IndexError:
+		# 	self.id = None
+		# 	self.logger.error("Couldn't assign id to a client (Probably hit the slot limit), assigning None")	
+		self.id = uuid.uuid4()
 		self.logger.debug("Created object {}".format(self))
 
 	def __eq__(self, other):
@@ -24,3 +26,4 @@ class Client(object):
 
 	def __repr__(self):
 		return self.__str__()
+

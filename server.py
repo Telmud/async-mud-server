@@ -17,7 +17,7 @@ class MUDServer(object):
 		loop = asyncio.get_running_loop()
 		server = await loop.create_server(lambda: MUDProtocol(self, loop), "0.0.0.0", "7777")
 		async with server:
-			await asyncio.gather(server.serve_forever(), self.game.onTick())
+			await asyncio.gather(server.serve_forever(), self.game.on_tick())
 			print("")
 
 	def broadcast(self, message, exclude=[]):

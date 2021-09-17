@@ -52,11 +52,7 @@ class MUDProtocol(asyncio.Protocol):
 		else:
 			toFormat1 = self.transport.get_extra_info("peername")[0]
 
-		if isinstance(self.belongsTo) is isinstance(None):
-			toFormat2 = "None"
-		else:
-			toFormat2 = self.belongsTo
-		return "MUDProtocol<{}, {}>".format(toFormat1, toFormat2)
+		return "MUDProtocol<{}>".format(toFormat1)
 
 	def __repr__(self):
 		return self.__str__()
